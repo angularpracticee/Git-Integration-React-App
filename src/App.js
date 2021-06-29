@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { createContext, useReducer } from "react";
+import { gitState, gitActions } from "./store/storeLogic";
+import NavigationComp from "./navHeader";
 
-function App() {
+export const gitCtx = createContext();
+function App() { 
+  //Reducer is not a must here, used it just to showcase.
+  const [state, dispatcher] = useReducer(gitActions, gitState);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="App">
+        <gitCtx.Provider value={[state, dispatcher]}>
+          <NavigationComp />
+        </gitCtx.Provider>
+      </div>
   );
 }
 
